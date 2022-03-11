@@ -2,8 +2,8 @@
     <channel>
         <title>LoveIt</title>
         <link>https://ellisonzhao.github.io/</link>
-        <description>About LoveIt Theme</description>
-        <generator>Hugo -- gohugo.io</generator><language>en</language><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright>
+        <description>关于 LoveIt 主题</description>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright>
             <atom:link href="https://ellisonzhao.github.io/index.xml" rel="self" type="application/rss+xml" />
         </channel>
 </rss>
