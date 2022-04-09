@@ -776,7 +776,7 @@ enableEmoji = true
     # KaTeX mathematical formulas config (KaTeX https://katex.org/)
     # KaTeX 数学公式配置 (KaTeX https://katex.org/)
     [params.page.math]
-      enable = false
+      enable = true
       # default block delimiter is $$ ... $$ and \\[ ... \\]
       # 默认块定界符是 $$ ... $$ 和 \\[ ... \\]
       blockLeftDelimiter = ""
@@ -1075,8 +1075,8 @@ enableEmoji = true
 # Author config
 # 作者配置
 [author]
-  name = "xxxx"
-  email = ""
+  name = "ellisonzhao"
+  email = "zhaoqi95@163.com"
   link = ""
 
 # Sitemap config
