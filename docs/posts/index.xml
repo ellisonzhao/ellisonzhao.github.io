@@ -1,0 +1,16 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>所有文章 - LoveIt</title>
+        <link>https://ellisonzhao.github.io/posts/</link>
+        <description>所有文章 | LoveIt</description>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>zhaoqixuan20@qq.com (ellisonzhao)</managingEditor>
+            <webMaster>zhaoqixuan20@qq.com (ellisonzhao)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Fri, 11 Mar 2022 17:18:46 &#43;0800</lastBuildDate><atom:link href="https://ellisonzhao.github.io/posts/" rel="self" type="application/rss+xml" /><item>
+    <title>二分查找总结</title>
+    <link>https://ellisonzhao.github.io/binary-search-summary/</link>
+    <pubDate>Fri, 11 Mar 2022 17:18:46 &#43;0800</pubDate>
+    <author>ellisonzhao</author>
+    <guid>https://ellisonzhao.github.io/binary-search-summary/</guid>
+    <description><![CDATA[二分查找总结 二分查找是一种在 有序数组 中查找某一特定元素的搜索算法。元素集合有顺序，元素性质有分界点，二分法就可以用来求分界点，并不一定要求集]]></description>
+</item>
+</channel>
+</rss>
