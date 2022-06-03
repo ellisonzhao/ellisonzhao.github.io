@@ -1,4 +1,4 @@
-baseURL = "https://example.com"
+baseURL = "https://ellisonzhao.github.io/"
 # [en, zh-cn, fr, pl, ...] determines default content language
 # [en, zh-cn, fr, pl, ...] 设置默认的语言
 defaultContentLanguage = "zh-cn"
@@ -25,7 +25,7 @@ enableEmoji = true
 
 [languages]
   [languages.zh-cn]
-    weight = 1
+    weight = 2
     # 网站语言, 仅在这里 CN 大写
     languageCode = "zh-CN"
     # 语言名称
@@ -157,7 +157,7 @@ enableEmoji = true
           paginate = 6
       # 主页的社交信息设置
       [languages.zh-cn.params.social]
-        GitHub = "xxxx"
+        GitHub = "ellisonzhao"
         Linkedin = ""
         Twitter = ""
         Instagram = ""
@@ -177,7 +177,7 @@ enableEmoji = true
         FreeCodeCamp = ""
         Bitbucket = ""
         Stackoverflow = ""
-        Weibo = "xxxx"
+        Weibo = ""
         Odnoklassniki = ""
         VK = ""
         Flickr = ""
@@ -195,13 +195,13 @@ enableEmoji = true
         Hackernews = ""
         Kickstarter = ""
         Patreon = ""
-        Steam = "xxxx"
+        Steam = ""
         Twitch = ""
         Strava = ""
         Skype = ""
         Whatsapp = ""
-        Zhihu = "xxxx"
-        Douban = "xxxx"
+        Zhihu = ""
+        Douban = ""
         Angellist = ""
         Slidershare = ""
         Jsfiddle = ""
@@ -214,13 +214,13 @@ enableEmoji = true
         Researchgate = ""
         Mastodon = ""
         Thingiverse = ""
-        Devto = "xxxx"
+        Devto = ""
         Gitea = ""
         XMPP = ""
         Matrix = ""
-        Bilibili = "xxxx"
-        Email = "xxxx@xxxx.com"
-        RSS = true
+        Bilibili = ""
+        Email = "zhaoqixuan20@qq.com"
+        RSS = false
 
 [params]
   # LoveIt theme version
@@ -675,8 +675,8 @@ enableEmoji = true
 # Author config
 # 作者配置
 [author]
-  name = "xxxx"
-  email = ""
+  name = "ellisonzhao"
+  email = "zhaoqixuan20@qq.com"
   link = ""
 
 # Sitemap config
