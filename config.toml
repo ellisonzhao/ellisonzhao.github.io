@@ -25,7 +25,7 @@ enableEmoji = true
 
 [languages]
   [languages.zh-cn]
-    weight = 2
+    weight = 1
     # 网站语言, 仅在这里 CN 大写
     languageCode = "zh-CN"
     # 语言名称
