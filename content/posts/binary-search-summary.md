@@ -62,8 +62,6 @@ int binarySearch(int left, int right) {
 }
 ```
 
-
-
 上述例题【[704. 二分查找](https://leetcode-cn.com/problems/binary-search/) 】套用 **模板一** 的写法：
 
 ```C++
@@ -105,8 +103,6 @@ int binarySearch(int left, int right) {
   return left;
 }
 ```
-
-
 
 上述例题【[704. 二分查找](https://leetcode-cn.com/problems/binary-search/) 】套用 **模板二** 的写法：
 
@@ -150,9 +146,7 @@ int binarySearch(vector<int> &nums, int target) {
 共同点比较好理解，但更值得注意的是，**这两个模板写法的不同点**：
 
 1. 更新 `mid` 的计算方式不同
-2.  `check(mid)` 不同，所以更新 `left` 和 `right` 也会有一些差别
-
-
+2. `check(mid)` 不同，所以更新 `left` 和 `right` 也会有一些差别
 
 ### Q & A
 
@@ -171,25 +165,19 @@ int binarySearch(vector<int> &nums, int target) {
 
 - 第一次检查 `left = 0, right = 1, mid = 1`，更新 `left = mid`，**退出循环**
 
-
-
 也可以通过边界条件来理解，这两个模板最后都是要收缩到区间 `[left, left+1]` 里进行最后一次 `check`：
 
 - 对于模板一，计算得到 `mid = left`，区间往左收缩是进入 `right = mid` ，区间往右收缩是进入 `left = mid + 1`，结束循环，所以更新 `mid` 要用 `mid = (left + right)/2`，
 - 对于模板二，计算得到 `mid = right`，区间往左收缩是进入`right = mid - 1` ，区间往右收缩是进入 `left = mid`，结束循环，所以更新 `mid` 要用 `mid = (left + right + 1)/2` 
 
-
-
 #### 2. 如何选择使用模板
 
 一般写二分的思考顺序是这样的：通过题目背景 **确定 `check(mid)` 的逻辑，判断答案落在左半区间还是右半区间**：
 
--  `target` 属于右半区间，则右半区间是 `[mid+1, right]`，左半区间是 `[left, mid]`，区间更新方式是   ` left = mid + 1; right = mid;`，此时用第一个模板；
--  `target` 属于左半区间，则左半区间是 `[left, mid-1]`，右半区间是 `[mid, right]`，区间更新方式是 `right = mid - 1; left = mid;`，此时用第二个模板；
+- `target` 属于右半区间，则右半区间是 `[mid+1, right]`，左半区间是 `[left, mid]`，区间更新方式是   ` left = mid + 1; right = mid;`，此时用第一个模板；
+- `target` 属于左半区间，则左半区间是 `[left, mid-1]`，右半区间是 `[mid, right]`，区间更新方式是 `right = mid - 1; left = mid;`，此时用第二个模板；
 
 这种区间划分方式将  `check(mid) == targrt` 分支的逻辑合并到 `check(mid) > targrt` 或 `check(mid) < targrt` 分支，不断将区间长度减半，具有更好的适用性，尤其适用于求一些分界点的问题。
-
-
 
 例题：
 
@@ -199,40 +187,82 @@ int binarySearch(vector<int> &nums, int target) {
 解释：
 
 1. 查找元素 `target` 的第一个位置，相当于查找 `大于等于 target` 的第一个元素位置：
-
+   
    - 如果 `nums[mid] < target`，此时 `target` 应该落在 **右半区间** `[mid+1, right]`；
    - 如果 `nums[mid] >= target`，此时 `target` 应该落在 **左半区间** `[left, mid]`，因为 `mid` 可能就是 `target`，所以还需要进一步比较；
-
+   
    因而选择 `check(mid)`为 `nums[mid] < target`，区间更新条件分别是 `left = mid + 1; right = mid;`
 
+```c++
+int searchFirst(vector<int> &nums, int target) {
+    int left = 0, right = nums.size() - 1;
+    while (left < right) {
+      int mid = (left + right) >> 1;
+      if (nums[mid] < target)
+        left = mid + 1;
+      else
+        right = mid;
+    }
+    return nums[left] == target ? left : -1;
+  }
+```
+
 2. 查找元素 `target` 的最后一个位置，相当于查找 `小于等于 target` 的最后一个元素位置：
+- 如果 `nums[mid] > target`，此时 `target` 应该落在 **左半区间** `[left, mid-1]`；
+- 如果 `nums[mid] <= target`，此时 `target` 应该落在 **右半区间** `[mid, right]`，因为 `mid` 可能就是 `target`，所以还需要进一步比较
 
-   - 如果 `nums[mid] > target`，此时 `target` 应该落在 **左半区间** `[left, mid-1]`；
-   - 如果 `nums[mid] <= target`，此时 `target` 应该落在 **右半区间** `[mid, right]`，因为 `mid` 可能就是 `target`，所以还需要进一步比较
+因而选择 `check(mid)` 为 `nums[mid] > target`，区间更新条件分别是 `right = mid-1; left = mid;`
 
-   因而选择 `check(mid)` 为 `nums[mid] > target`，区间更新条件分别是 `right = mid-1; left = mid;`
+```c++
+int searchLast(vector<int> &nums, int target) {
+  int left = 0, right = nums.size() - 1;
+  while (left < right) {
+    int mid = (left + right + 1) / 2;
+    if (nums[mid] <= target)
+      left = mid;
+    else
+      right = mid - 1;
+  }
+  return nums[left] == target ? left : -1;
+}
+```
 
 3. 计算 `x` 的算术平方根，结果只保留整数部分：由于 `x` 平方根的整数部分是满足 `k*k <= x ` 的 `最大 k 值`
+- 如果 `mid * mid > x  `，那么结果应该落在 **左半区间** `[left, mid-1]`
+- 如果 `mid * mid <= x  `，那么结果应该落在 **右半区间** `[mid, right]`
 
-   - 如果 `mid * mid > x  `，那么结果应该落在 **左半区间** `[left, mid-1]`
-   - 如果 `mid * mid <= x  `，那么结果应该落在 **右半区间** `[mid, right]`
+因而选择 `check(mid)` 为 `mid*mid > x`，区间更新条件分别是 `right = mid-1; left = mid;`
 
-   因而选择 `check(mid)` 为 `mid*mid > x`，区间更新条件分别是 `right = mid-1; left = mid;`
+```c++
+int mySqrt(int x) {
+  int left = 0, right = x;
+  while (left < right) {
+    // 防止值溢出
+    int mid = (right + left + 1LL) / 2;
+    if (mid > x / mid)
+      // 结果在左半区间 [left, mid-1]
+      right = mid - 1;
+    else
+      // 结果在右半区间 [mid, right]
+      left = mid;
+  }
+  return left;
+}
+```
 
 ## 解决问题
 
-|题目                             |       题解        | 难度 |
-| :----------------------------------------------------------- | :---------------: | :--: |
-| [4.寻找两个正序数组的中位数](https://leetcode-cn.com/problems/median-of-two-sorted-arrays/) | [LeetCode 题解](https://leetcode-cn.com/problems/median-of-two-sorted-arrays/solution/xiang-xi-tong-su-de-si-lu-fen-xi-duo-jie-fa-by-w-2/) | 困难 |
-| [33. 搜索旋转排序数组](https://leetcode-cn.com/problems/search-in-rotated-sorted-array/) | [LeetCode 题解](https://leetcode-cn.com/problems/search-in-rotated-sorted-array/solution/by-ellisonzhao-iwux/) | 中等 |
-| [34. 在排序数组中查找元素的第一个和最后一个位置](https://leetcode-cn.com/problems/find-first-and-last-position-of-element-in-sorted-array/) | [LeetCode 题解](https://leetcode-cn.com/problems/find-first-and-last-position-of-element-in-sorted-array/solution/by-ellisonzhao-h2ee/) | 中等 |
-| [35. 搜索插入位置](https://leetcode-cn.com/problems/search-insert-position/) | [LeetCode 题解](https://leetcode-cn.com/problems/search-insert-position/solution/35-sou-suo-cha-ru-wei-zhi-by-ellisonzhao-qa8m/) | 简单 |
-| [69. x 的平方根 ](https://leetcode-cn.com/problems/sqrtx/) | [LeetCode 题解](https://leetcode-cn.com/problems/sqrtx/solution/by-ellisonzhao-9pk9/) | 简单 |
-| [74. 搜索二维矩阵](https://leetcode-cn.com/problems/search-a-2d-matrix/) | [LeetCode 题解](https://leetcode-cn.com/problems/search-a-2d-matrix/solution/by-ellisonzhao-t1sj/) | 中等 |
-| [81. 搜索旋转排序数组 II](https://leetcode-cn.com/problems/search-in-rotated-sorted-array-ii/) | [LeetCode 题解](https://leetcode-cn.com/problems/search-in-rotated-sorted-array-ii/solution/by-ellisonzhao-0fmi/) | 中等 |
-| [153. 寻找旋转排序数组中的最小值](https://leetcode-cn.com/problems/find-minimum-in-rotated-sorted-array/) | [LeetCode 题解](https://leetcode-cn.com/problems/find-minimum-in-rotated-sorted-array/solution/by-ellisonzhao-l0ze/) | 中等 |
-| [154. 寻找旋转排序数组中的最小值 II](https://leetcode-cn.com/problems/find-minimum-in-rotated-sorted-array-ii/) | [LeetCode 题解](https://leetcode-cn.com/problems/find-minimum-in-rotated-sorted-array-ii/solution/by-ellisonzhao-tkes/) | 困难 |
-| [162. 寻找峰值](https://leetcode-cn.com/problems/find-peak-element/) | [LeetCode 题解](https://leetcode-cn.com/problems/find-peak-element/solution/gong-shui-san-xie-noxiang-xin-ke-xue-xi-qva7v/) | 中等 |
-| [240. 搜索二维矩阵 II](https://leetcode-cn.com/problems/search-a-2d-matrix-ii/) | [LeetCode 题解](https://leetcode-cn.com/problems/search-a-2d-matrix-ii/solution/by-ellisonzhao-20us/) | 中等 |
-| [367. 有效的完全平方数](https://leetcode-cn.com/problems/valid-perfect-square/) | [LeetCode 题解](https://leetcode-cn.com/problems/valid-perfect-square/solution/by-ellisonzhao-nhfs/) | 简单 |
-
+| 题目                                                                                                                     | 题解                                                                                                                                       | 难度  |
+|:---------------------------------------------------------------------------------------------------------------------- |:----------------------------------------------------------------------------------------------------------------------------------------:|:---:|
+| [4.寻找两个正序数组的中位数](https://leetcode-cn.com/problems/median-of-two-sorted-arrays/)                                        | [LeetCode 题解](https://leetcode-cn.com/problems/median-of-two-sorted-arrays/solution/xiang-xi-tong-su-de-si-lu-fen-xi-duo-jie-fa-by-w-2/) | 困难  |
+| [33. 搜索旋转排序数组](https://leetcode-cn.com/problems/search-in-rotated-sorted-array/)                                       | [LeetCode 题解](https://leetcode-cn.com/problems/search-in-rotated-sorted-array/solution/by-ellisonzhao-iwux/)                             | 中等  |
+| [34. 在排序数组中查找元素的第一个和最后一个位置](https://leetcode-cn.com/problems/find-first-and-last-position-of-element-in-sorted-array/) | [LeetCode 题解](https://leetcode-cn.com/problems/find-first-and-last-position-of-element-in-sorted-array/solution/by-ellisonzhao-h2ee/)    | 中等  |
+| [35. 搜索插入位置](https://leetcode-cn.com/problems/search-insert-position/)                                                 | [LeetCode 题解](https://leetcode-cn.com/problems/search-insert-position/solution/35-sou-suo-cha-ru-wei-zhi-by-ellisonzhao-qa8m/)           | 简单  |
+| [69. x 的平方根 ](https://leetcode-cn.com/problems/sqrtx/)                                                                 | [LeetCode 题解](https://leetcode-cn.com/problems/sqrtx/solution/by-ellisonzhao-9pk9/)                                                      | 简单  |
+| [74. 搜索二维矩阵](https://leetcode-cn.com/problems/search-a-2d-matrix/)                                                     | [LeetCode 题解](https://leetcode-cn.com/problems/search-a-2d-matrix/solution/by-ellisonzhao-t1sj/)                                         | 中等  |
+| [81. 搜索旋转排序数组 II](https://leetcode-cn.com/problems/search-in-rotated-sorted-array-ii/)                                 | [LeetCode 题解](https://leetcode-cn.com/problems/search-in-rotated-sorted-array-ii/solution/by-ellisonzhao-0fmi/)                          | 中等  |
+| [153. 寻找旋转排序数组中的最小值](https://leetcode-cn.com/problems/find-minimum-in-rotated-sorted-array/)                           | [LeetCode 题解](https://leetcode-cn.com/problems/find-minimum-in-rotated-sorted-array/solution/by-ellisonzhao-l0ze/)                       | 中等  |
+| [154. 寻找旋转排序数组中的最小值 II](https://leetcode-cn.com/problems/find-minimum-in-rotated-sorted-array-ii/)                     | [LeetCode 题解](https://leetcode-cn.com/problems/find-minimum-in-rotated-sorted-array-ii/solution/by-ellisonzhao-tkes/)                    | 困难  |
+| [162. 寻找峰值](https://leetcode-cn.com/problems/find-peak-element/)                                                       | [LeetCode 题解](https://leetcode-cn.com/problems/find-peak-element/solution/gong-shui-san-xie-noxiang-xin-ke-xue-xi-qva7v/)                | 中等  |
+| [240. 搜索二维矩阵 II](https://leetcode-cn.com/problems/search-a-2d-matrix-ii/)                                              | [LeetCode 题解](https://leetcode-cn.com/problems/search-a-2d-matrix-ii/solution/by-ellisonzhao-20us/)                                      | 中等  |
+| [367. 有效的完全平方数](https://leetcode-cn.com/problems/valid-perfect-square/)                                                | [LeetCode 题解](https://leetcode-cn.com/problems/valid-perfect-square/solution/by-ellisonzhao-nhfs/)                                       | 简单  |
